@@ -2,9 +2,9 @@
 
 **Utilities for Solving Project Euler Problems**
 
-[link to Project Euler](https://projecteuler.net/) 
+[Project Euler Official Site](https://projecteuler.net/) 
 
-# There are no solutions here, only helper functions.
+** There are no solutions here, only helper functions.**
 
 This is a work in progress.
 
