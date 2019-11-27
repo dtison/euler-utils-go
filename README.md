@@ -1,6 +1,6 @@
 # euler-utils-go
 
-**Golang Package of Utilities for Solving Project Euler Problems**
+**Golang Package of Utilities and Tools for Solving Project Euler Problems**
 
 [Project Euler Official Site](https://projecteuler.net/) 
 
