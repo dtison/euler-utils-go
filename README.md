@@ -16,6 +16,10 @@ This package has functions to generate Prime numbers, find Prime factors, Pandig
 
 If you are working on Project Euler in Go, these will help you.  In here you will find the raw materials with which to do these problems.
 
+**Dependencies**
+
+This package uses (https://github.com/yourbasic/bit) because it was blazing-fast.
+
 **TODO's**
 
 Testing 
