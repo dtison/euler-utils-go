@@ -6,7 +6,7 @@
 
 **There are no solutions here, only helper functions.**
 
-This is a work in progress.
+This is a work in progress.  There are some things that could be organized better.  Pull requests are welcome.
 
 I am new to the Golang ecosphere, but am learning using Project Euler problems.
 
@@ -14,7 +14,7 @@ After doing several of the Euler problems, you find several standard functions a
 
 This package has functions to generate Prime numbers, find Prime factors, pandigital functions.
 
-If you are working on Project Euler in Go, these will help you.
+If you are working on Project Euler in Go, these will help you.  In here you will find the raw materials with which to do these problems.
 
 **TESTING**
 
