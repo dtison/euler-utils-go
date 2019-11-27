@@ -12,7 +12,7 @@ I am new to the Golang ecosphere, but am learning using Project Euler problems.
 
 After doing several of the Euler problems, you find several standard functions are reused frequently.
 
-This package has functions to generate Prime numbers, find Prime factors, pandigital functions.
+This package has functions to generate Prime numbers, find Prime factors, pandigital functions, GCD, Palindrome tests, etc.
 
 If you are working on Project Euler in Go, these will help you.  In here you will find the raw materials with which to do these problems.
 
