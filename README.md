@@ -6,9 +6,9 @@
 
 **There are no solutions here, only helper functions.**
 
-This is a work in progress.  There are some things that could be organized better.  Pull requests are welcome.
+This is a work in progress.  This is a personal interest project. There are some things that could be organized better, or commented better, etc.  If you find anything lacking, **Pull Requests are welcome**.
 
-I am new to the Golang ecosphere, but am learning using Project Euler problems.
+I am new to the Golang ecosphere, but am learning much, using Project Euler problems.
 
 After doing several of the Euler problems, you find several standard functions are reused frequently.
 
@@ -18,7 +18,7 @@ If you are working on Project Euler in Go, these will help you.  In here you wil
 
 **TESTING**
 
-I have not had a chance to write tests for these.  
+Tests should be done.  I have not had a chance to write tests for these.  
 
 The tests so far are **these functions get correct answers to the problems on Project Euler**.
 
