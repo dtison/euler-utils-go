@@ -6,7 +6,7 @@
 
 **There are no solutions here, only helper functions.**
 
-This is a work in progress.  This is a personal interest project.  What is written in here is made to create fast-running solutions. There are some things that could be organized better, or commented better, etc.  If you find anything lacking, **Pull Requests are welcome**.
+This is a work in progress, and is a personal interest project.  What is written in here is made to create fast-running solutions. There are some things that could be organized better, or commented better, etc.  If you find anything lacking, **Pull Requests are welcome**.
 
 I am new to the Golang ecosphere, but am learning much, using Project Euler problems.
 
@@ -33,3 +33,5 @@ So far, I have completed over 50 of them.
 Parallel Execution
 
 Some of these might be optimized to use multiple CPU cores using goroutines and channels.
+
+More Detailed Documentation
