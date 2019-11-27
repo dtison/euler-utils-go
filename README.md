@@ -16,10 +16,16 @@ This package has functions to generate Prime numbers, find Prime factors, Pandig
 
 If you are working on Project Euler in Go, these will help you.  In here you will find the raw materials with which to do these problems.
 
-**TESTING**
+**TODO's**
+
+Testing 
 
 Tests should be done.  I have not had a chance to write tests for these.  
 
 The tests so far are **these functions get correct answers to the problems on Project Euler**.
 
 So far, I have completed over 50 of them.  
+
+Parallel Execution
+
+Some of these might be optimized to use multiple CPU cores using goroutines and channels.
