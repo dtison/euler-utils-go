@@ -55,45 +55,24 @@ func ArraySum(array []int) int {
 	return sum
 }
 
-/* func GetPrimeFactors(number interface{}) (*list.List, bool) {
-	n := makeInt64(number)
-	results := list.New()
+// GetPrimeFactors creates a list of Factor struct elements for number
+func GetPrimeFactors(number interface{}) (int, *list.List) {
+	number64 := makeInt64(number)
+	n, results := number64, list.New()
 	for i := int64(2); i <= n/i; i++ {
+		factor, exponent := int64(0), 0
 		for n%i == 0 {
-			results.PushBack(i)
+			factor, exponent = i, exponent+1
 			n /= i
 		}
-	}
-	if n > 1 {
-		results.PushBack(n)
-	}
-	return results, results.Len() > 0
-} */
-
-// GetPrimeFactors creates a list of prime factors for number
-func GetPrimeFactors(number interface{}, lastValue ...*int64) (*list.List, bool) {
-
-	n := makeInt64(number)
-	start := int64(2)
-	if len(lastValue) > 0 {
-		start = *lastValue[0]
-	}
-
-	results := list.New()
-	value := start
-	for ; value <= n/value; value++ {
-		for n%value == 0 {
-			results.PushBack(value)
-			n /= value
+		if factor != 0 {
+			results.PushBack(Factor{Number: factor, Exponent: exponent})
 		}
 	}
-	if n > 1 {
-		results.PushBack(n)
+	if n > 1 && n != number64 {
+		results.PushBack(Factor{Number: n, Exponent: 1})
 	}
-	if len(lastValue) > 0 {
-		*lastValue[0] = value
-	}
-	return results, results.Len() > 0
+	return results.Len(), results
 }
 
 // DisplayElapsedTime displays time since start
@@ -146,13 +125,15 @@ type Primes interface {
 
 // PrimeGenerator is for primes
 type PrimeGenerator struct {
-	limit int
-	sieve *bit.Set
+	limit  int
+	sieve  *bit.Set
+	primes []int
 }
 
 // Factor for prime factorization
 type Factor struct {
-	Number, Exponent int
+	Number   int64
+	Exponent int
 }
 
 // NewPrimeGenerator makes a new one
@@ -184,17 +165,29 @@ func (generator *PrimeGenerator) PrevPrime(prev int) int {
 	return generator.sieve.Prev(prev)
 }
 
+// NumPrimes returns size
+func (generator *PrimeGenerator) NumPrimes() int {
+	return generator.sieve.Size()
+}
+
 // PrimeFactors finds prime factors  TODO: Error if not enough primes
 // Returns number of unique factors, and List of Factors with exponents
-func (generator *PrimeGenerator) PrimeFactors(value interface{}) (int, *list.List) {
+// Work in progress - Not ready for use.  Use utils.GetPrimeFactors()
+/* func (generator *PrimeGenerator) PrimeFactors(value interface{}) (int, *list.List) {
 
 	number := makeInt64(value)
 	numFactors, remainder, results := 0, number, list.New()
 	if generator.sieve.Contains(int(number)) {
 		return 0, results
 	}
-
-	for prime := 2; prime != -1 && remainder != 1; prime = generator.sieve.Next(prime) {
+	if generator.primes == nil {
+		generator.primes = make([]int, generator.sieve.Size())
+		for index, i := 0, 2; i != -1; i, index = generator.sieve.Next(i), index+1 {
+			generator.primes[index] = i
+		}
+	}
+	//	for prime := 2; prime != -1 && remainder != 1; prime = generator.sieve.Next(prime) {
+	for prime, index := 2, 0; index < len(generator.primes) && remainder != 1; prime, index = generator.primes[index], index+1 {
 
 		checkFactors := func(value int64, remainder *int64) (bool, int) {
 			hasFactor, exponent := false, 0
@@ -207,14 +200,13 @@ func (generator *PrimeGenerator) PrimeFactors(value interface{}) (int, *list.Lis
 			}
 			return hasFactor, exponent
 		}
-
 		if isPrimeFactor, exponent := checkFactors(int64(prime), &remainder); isPrimeFactor {
-			results.PushBack(Factor{Number: prime, Exponent: exponent})
+			results.PushBack(Factor{Number: int64(prime), Exponent: exponent})
 		}
-	}
 
+	}
 	return numFactors, results
-}
+} */
 
 // IsPrime is a fallback standard prime checker
 func IsPrime(n uint64) bool {
@@ -522,200 +514,3 @@ func permRecursive(a []rune, f func([]rune), i int) {
 		a[i], a[j] = a[j], a[i]
 	}
 }
-
-// private bool IsPalindrome(int number, int b){
-// 	int reversed = 0;
-// 	int k = number;
-
-// 	while (k > 0) {
-// 		reversed = b * reversed + k % b;
-// 		k /= b;
-// 	}
-
-// 	bool result = (number == reversed);
-// 	if (result) {
-// 		Console.WriteLine("IsPalindrome {0} {1}", Convert.ToString(number, 2), reversed);
-// 	}
-// 	return result;
-// }
-
-/*  WIP  Permutations
-
-func getPermutations(s []byte, l, r int) [][]byte {
-	//var result [][]byte
-	result := make([][]byte, 0)
-	if l == r {
-		fmt.Println("storing temp ans", s)
-		result = append(result, s)
-		return result
-	} else {
-		for i := l; i <= r; i++ {
-			utils.SwapBytesAt(s, l, i)
-
-			result = append(result, getPermutations(s, l+1, r)...)
-			utils.SwapBytesAt(s, l, i)
-
-		}
-	}
-	return result
-}
-
-*/
-
-/* func bigFactorial(number big.Int) big.Int {
-	total := new(big.Int)
-	one := new(big.Int)
-	one.SetString("1", 10)
-	for value := number; value.Cmp(one) > 1; value.Sub(&value, one) {
-		total = total.Mul(&value, total)
-
-	}
-
-} */
-
-/*
-  Based on this
-https://jsfiddle.net/0tryqv58/
-
-function getDivisors(n)
-{
-	result = [];
-    // Note that this loop runs till square root
-    for (let i=1; i<=Math.sqrt(n); i++)
-    {
-        if (n%i == 0)
-        {
-            // If divisors are equal, print only one
-            if (n/i == i) {
-            	result.push(i);
-            }  else {
-				result.push(i);
-              result.push(n / i)
-            }
-        }
-    }
-    return result
-}
-*/
-
-/*
-
-// IsPandigital true if 1..9
-func IsPandigital(n uint) bool {
-	if n > 987654321 {
-		return false
-	}
-	digits := new(bit.Set)
-
-	for n > 0 {
-		digit := int(n % 10)
-		if digits.Contains(digit) {
-			return false
-		} else {
-			digits.Add(digit)
-		}
-		n /= 10
-	}
-	return digits.Equal(new(bit.Set).AddRange(1, 10))
-}
-
-*/
-
-/*
-// Slow - tries to return in normal order
-func getDigits(source uint64) (result []uint8) {
-	number := source
-	for number > 0 {
-		// Source https://github.com/golang/go/wiki/SliceTricks
-		result = append([]uint8{uint8(number % 10)}, result...)
-		number /= 10
-	}
-	return
-}
-
-*/
-/*  OLD version
-
-func PythagoreanTriplets(limit uint64) [][]uint64 {
-
-	result := make([][]uint64, 0)
-
-	// triplet: a^2 + b^2 = c^2
-	var a, b, c uint64
-	m := uint64(2)
-	c = limit
-	// loop from 2 to max_limitit
-	// int m = 2;
-
-	// Limiting c would limit
-	// all a, b and c
-	for c <= limit {
-
-	found:
-		// now loop on j from 1 to i-1
-		for n := uint64(1); n < m; n++ {
-
-			// Evaluate and print triplets using
-			// the relation between a, b and c
-			a = m*m - n*n
-			b = 2 * m * n
-			c = m*m + n*n
-
-			if c > limit {
-				break found
-			}
-
-			fmt.Printf("%d %d %d\n", a, b, c)
-		}
-		m++
-	}
-	return result
-}
-
-
-*/
-
-/*  Originally From geeks for geeks, slower
-
-// IsTriangularNumber bool
-func IsTriangularNumber1(v interface{}) bool {
-	n := makeInt64(v)
-	if n < 0 {
-		return false
-	}
-	// Considering the equation n*(n+1)/2 = num
-	// The equation is  : a(n^2) + bn + c = 0";
-	c := (-2 * n)
-	b, a := int64(1), int64(1)
-	d := (b * b) - (4 * a * c)
-
-	if d < 0 {
-		return false
-	}
-	// Find roots of equation
-	sqrt := math.Sqrt(float64(d))
-	denominator := float64((2 * a))
-	root1 := (float64(-b) + sqrt) / denominator
-	root2 := (float64(-b) - sqrt) / denominator
-
-	// check if roots are natural
-	if root1 > 0 && math.Floor(root1) == root1 {
-		return true
-	}
-	if root2 > 0 && math.Floor(root2) == root2 {
-		return true
-	}
-	return false
-}
-*/
-/*
-
-// FactorialInt int factorial - DEPRECATED
-func FactorialInt(value int) (result int) {
-	for result = 1; value >= 1; value-- {
-		result = result * value
-	}
-	return result
-}
-
-*/
